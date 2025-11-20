@@ -36,7 +36,7 @@ public class LoginUserTest extends BaseApiTest{
     @Test
     public void testLoginUserWithWrongEmailFailure() {
         UserModel userModified = new UserModel(WRONG_EMAIL, PASSWORD, NAME);
-        loginUser(user, userAccessToken, userModified).then()
+        loginUser(userModified, userAccessToken).then()
                 .statusCode(HTTP_UNAUTHORIZED)
                 .body("success", equalTo(false))
                 .body("message", startsWith("email or password are incorrect"));
@@ -46,7 +46,7 @@ public class LoginUserTest extends BaseApiTest{
     @Test
     public void testLoginUserWithWrongPasswordFailure() {
         UserModel userModified = new UserModel(EMAIL, WRONG_PASSWORD, NAME);
-        loginUser(user, userAccessToken, userModified).then()
+        loginUser(userModified, userAccessToken).then()
                 .statusCode(HTTP_UNAUTHORIZED)
                 .body("success", equalTo(false))
                 .body("message", startsWith("email or password are incorrect"));
