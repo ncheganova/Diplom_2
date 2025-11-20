@@ -27,10 +27,35 @@ public class UserSteps {
     public static void deleteUser(String userAccessToken) {
         given()
                 .log().all()
-                //.auth().oauth2(userAccessToken)
                 .header("Authorization", userAccessToken)
                 .delete("/api/auth/user")
                 .then()
                 .log().all();
+    }
+    //логин пользователя успешный
+    public static Response loginUser(UserModel userModel, String userAccessToken) {
+        return given()
+                .log().all()
+                .header("Authorization", userAccessToken)
+                .contentType(ContentType.JSON)
+                .body(userModel)
+                .when()
+                .post("/api/auth/login")
+                .then()
+                .log().all()
+                .extract().response();
+    }
+    //логин пользователя неуспешный
+    public static Response loginUser(UserModel userModel, String userAccessToken, UserModel modifiedUserModel) {
+        return given()
+                .log().all()
+                .header("Authorization", userAccessToken)
+                .contentType(ContentType.JSON)
+                .body(modifiedUserModel)
+                .when()
+                .post("/api/auth/login")
+                .then()
+                .log().all()
+                .extract().response();
     }
 }
