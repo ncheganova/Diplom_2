@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import model.OrderModel;
 
 import static io.restassured.RestAssured.given;
+import static model.Endpoints.CREATE_ORDER_ENDPOINT;
 
 public class OrderSteps {
     //создать заказ
@@ -15,7 +16,7 @@ public class OrderSteps {
                 .contentType(ContentType.JSON)
                 .body(orderModel)
                 .when()
-                .post("/api/orders")
+                .post(CREATE_ORDER_ENDPOINT)
                 .then()
                 .log().all()
                 .extract().response();

@@ -5,6 +5,7 @@ import io.restassured.response.Response;
 import model.UserModel;
 
 import static io.restassured.RestAssured.given;
+import static model.Endpoints.*;
 
 public class UserSteps {
     //создать пользователя
@@ -14,7 +15,7 @@ public class UserSteps {
                 .contentType(ContentType.JSON)
                 .body(userModel)
                 .when()
-                .post("/api/auth/register")
+                .post(CREATE_USER_ENDPOINT)
                 .then()
                 .log().all()
                 .extract().response();
@@ -28,7 +29,7 @@ public class UserSteps {
         given()
                 .log().all()
                 .header("Authorization", userAccessToken)
-                .delete("/api/auth/user")
+                .delete(DELETE_USER_ENDPOINT)
                 .then()
                 .log().all();
     }
@@ -40,7 +41,7 @@ public class UserSteps {
                 .contentType(ContentType.JSON)
                 .body(userModel)
                 .when()
-                .post("/api/auth/login")
+                .post(LOGIN_USER_ENDPOINT)
                 .then()
                 .log().all()
                 .extract().response();
