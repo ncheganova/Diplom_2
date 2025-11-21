@@ -1,3 +1,4 @@
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import model.UserModel;
 import org.junit.After;
@@ -21,7 +22,7 @@ public class LoginUserTest extends BaseApiTest{
         userAccessToken = getUserAccessToken(resCreateUser);
     }
 
-    //    вход под существующим пользователем
+    @DisplayName("Провера входа под существующим паролем")
     @Test
     public void testLoginUserSuccess() {
         loginUser(user, userAccessToken).then()
@@ -32,7 +33,8 @@ public class LoginUserTest extends BaseApiTest{
                 .body("user.email", equalTo(EMAIL))
                 .body("user.name", equalTo(NAME));
     }
-    //    вход с неверным логином
+
+    @DisplayName("Провера входа с неверным логином")
     @Test
     public void testLoginUserWithWrongEmailFailure() {
         UserModel userModified = new UserModel(WRONG_EMAIL, PASSWORD, NAME);
@@ -42,7 +44,7 @@ public class LoginUserTest extends BaseApiTest{
                 .body("message", startsWith("email or password are incorrect"));
     }
 
-    //    вход с неверным паролем
+    @DisplayName("Провера входа с неверным паролем")
     @Test
     public void testLoginUserWithWrongPasswordFailure() {
         UserModel userModified = new UserModel(EMAIL, WRONG_PASSWORD, NAME);

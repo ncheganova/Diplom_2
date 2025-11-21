@@ -1,3 +1,4 @@
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import model.OrderModel;
 import model.UserModel;
@@ -24,7 +25,8 @@ public class CreateOrderTest extends BaseApiTest{
         Response resCreateUser = createUser(user);
         userAccessToken = getUserAccessToken(resCreateUser);
     }
-    //с авторизацией и ингредиентами
+
+    @DisplayName("Проверка успешного создания заказа с атворизацией и ингредиентами")
     @Test
     public void testCreateOrderWithTokenSuccess() {
         ArrayList<String> ingredients = getOrdersIngredients(INGREDIENT_BUN, INGREDIENT_MEAT);
@@ -39,18 +41,19 @@ public class CreateOrderTest extends BaseApiTest{
                 .body("order.price", equalTo(2325));
     }
 
-    //без авторизации
+
+    @DisplayName("Проверка успешного создания заказа без атворизацией с ингредиентами")
     @Test
     public void testCreateOrderWithoutTokenSuccess() {
         ArrayList<String> ingredients = getOrdersIngredients(INGREDIENT_BUN, INGREDIENT_MEAT);
         order = new OrderModel(ingredients);
 
-        createOrder(order, null).then()
+        createOrder(order, "").then()
                 .statusCode(HTTP_OK)
                 .body("success", equalTo(true));
     }
 
-    //без ингредиентов;
+    @DisplayName("Проверка неуспешного создания заказа с атворизацией без ингредиентов")
     @Test
     public void testCreateOrderWithoutIngredientsFailure() {
         ArrayList<String> ingredients = getOrdersIngredients();
@@ -62,7 +65,8 @@ public class CreateOrderTest extends BaseApiTest{
                 .body("message", equalTo("Ingredient ids must be provided"));
     }
 
-    //с неверным хешем ингредиентов
+
+    @DisplayName("Проверка неуспешного создания заказа с атворизацией и неверным хэшем ингредиентов")
     @Test
     public void testCreateOrderWithWrongIngredientsFailure() {
         ArrayList<String> ingredients = getOrdersIngredients(FIRST_WRONG_INGR, SECOND_WRONG_INGR);

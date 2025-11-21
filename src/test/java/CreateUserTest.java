@@ -1,3 +1,4 @@
+import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import model.UserModel;
 import org.junit.After;
@@ -18,7 +19,8 @@ public class CreateUserTest extends BaseApiTest {
     public void setUser(){
         user = new UserModel(EMAIL, PASSWORD, NAME);
     }
-//    создать уникального пользователя
+
+    @DisplayName("Успешное создание уникального пользователя")
     @Test
     public void testCreateUserSuccess() {
         Response resCreateUser = createUser(user);
@@ -31,7 +33,8 @@ public class CreateUserTest extends BaseApiTest {
                 .body("accessToken", startsWith("Bearer "))
                 .body("refreshToken", notNullValue());
     }
-//    создать пользователя, который уже зарегистрирован
+
+    @DisplayName("Неуспешное создание пользователя, который уже зарегистрирован")
     @Test
     public void testCreateDoubleUserFailure() {
         Response resCreateOneUser = createUser(user);
@@ -41,7 +44,8 @@ public class CreateUserTest extends BaseApiTest {
                 .body("success", equalTo(false))
                 .body("message", equalTo("User already exists"));
     }
-//    создать пользователя и не заполнить одно из обязательных полей
+
+    @DisplayName("Неуспешное создание пользователя, если не заполнить одно из обязательных полей")
     @Test
     public void testCreateUserWithoutEmailFailure() {
         user.setEmail(null);
