@@ -48,7 +48,7 @@ public class CreateUserTest extends BaseApiTest {
                 .body("message", equalTo("User already exists"));
     }
 
-    @DisplayName("Неуспешное создание пользователя, если не заполнить одно из обязательных полей")
+    @DisplayName("Неуспешное создание пользователя, если не заполнить email")
     @Description("Тест проверяет код и тело ответа при создании пользователя, если не заполнить email")
     @Test
     public void testCreateUserWithoutEmailFailure() {
@@ -58,6 +58,29 @@ public class CreateUserTest extends BaseApiTest {
                 .body("success", equalTo(false))
                 .body("message", equalTo("Email, password and name are required fields"));
     }
+
+    @DisplayName("Неуспешное создание пользователя, если не заполнить имя")
+    @Description("Тест проверяет код и тело ответа при создании пользователя, если не заполнить имя")
+    @Test
+    public void testCreateUserWithoutNameFailure() {
+        user.setName(null);
+        createUser(user).then()
+                .statusCode(HTTP_FORBIDDEN)
+                .body("success", equalTo(false))
+                .body("message", equalTo("Email, password and name are required fields"));
+    }
+
+    @DisplayName("Неуспешное создание пользователя, если не заполнить пароль")
+    @Description("Тест проверяет код и тело ответа при создании пользователя, если не заполнить пароль")
+    @Test
+    public void testCreateUserWithoutPasswordFailure() {
+        user.setPassword(null);
+        createUser(user).then()
+                .statusCode(HTTP_FORBIDDEN)
+                .body("success", equalTo(false))
+                .body("message", equalTo("Email, password and name are required fields"));
+    }
+
     @After
     public void cleanUp() {
         //код для удаления созданного пользователя
