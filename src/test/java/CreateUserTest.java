@@ -1,3 +1,4 @@
+import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.Response;
 import model.UserModel;
@@ -21,6 +22,7 @@ public class CreateUserTest extends BaseApiTest {
     }
 
     @DisplayName("Успешное создание уникального пользователя")
+    @Description("Тест проверяет код и тело ответа для создания уникального пользователя")
     @Test
     public void testCreateUserSuccess() {
         Response resCreateUser = createUser(user);
@@ -35,6 +37,7 @@ public class CreateUserTest extends BaseApiTest {
     }
 
     @DisplayName("Неуспешное создание пользователя, который уже зарегистрирован")
+    @Description("Тест проверяет код и тело ответа для создания неуникального пользователя")
     @Test
     public void testCreateDoubleUserFailure() {
         Response resCreateOneUser = createUser(user);
@@ -46,6 +49,7 @@ public class CreateUserTest extends BaseApiTest {
     }
 
     @DisplayName("Неуспешное создание пользователя, если не заполнить одно из обязательных полей")
+    @Description("Тест проверяет код и тело ответа при создании пользователя, если не заполнить email")
     @Test
     public void testCreateUserWithoutEmailFailure() {
         user.setEmail(null);
